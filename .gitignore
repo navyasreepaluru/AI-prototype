@@ -8,8 +8,8 @@ __pycache__/
 .pytest_cache/
 
 # SQLite (keep local dev db or let it be created)
-# backend/cybershield.db
-
+backend/cybershield.db
+*.db
 # Node & Frontend
 frontend/node_modules/
 frontend/dist/
