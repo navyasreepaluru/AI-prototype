@@ -1,0 +1,17 @@
+# Python
+backend/venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# SQLite (keep local dev db or let it be created)
+# backend/cybershield.db
+
+# Node & Frontend
+frontend/node_modules/
+frontend/dist/
+.DS_Store
+Thumbs.db

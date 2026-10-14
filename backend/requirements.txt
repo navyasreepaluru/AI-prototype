@@ -1,0 +1,11 @@
+Flask==3.0.3
+Flask-Cors==4.0.1
+SQLAlchemy==2.0.30
+Flask-SQLAlchemy==3.1.1
+scikit-learn==1.4.2
+numpy==1.26.4
+joblib==1.4.2
+tldextract==5.1.2
+requests==2.32.2
+pytest==8.2.1
+python-dotenv==1.0.1
