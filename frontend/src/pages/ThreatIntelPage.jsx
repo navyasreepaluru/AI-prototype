@@ -18,22 +18,55 @@ export default function ThreatIntelPage() {
     const params = {};
     if (searchQuery.trim()) params.q = searchQuery.trim();
     if (selectedCategory) params.category = selectedCategory;
-    if (selectedType) params.type = selectedType;
+    const loadData = () => {
+  setLoading(true);
+  if (selectedType) params.type = selectedType;
 
-    Promise.all([
-      api.getThreats(params),
-      api.getThreatSummary()
-    ]).then(([threatData, sumData]) => {
-      setThreats(threatData.threats || []);
-      setTotal(threatData.total || 0);
-      setIntelMode(threatData.intel_mode || 'Local Intelligence');
-      setAdapterStatus(threatData.external_adapter_status || 'Disabled');
-      setSummary(sumData);
-      setLoading(false);
-    }).catch(err => {
-      console.error("Threat intel fetch error:", err);
-      setLoading(false);
+  Promise.all([
+    api.getThreats(params),
+    api.getThreatSummary()
+  ]).then(([threatData, sumData]) => {
+    setThreats(threatData.threats || []);
+    setTotal(threatData.total || 0);
+    setIntelMode(threatData.intel_mode || 'Local Intelligence');
+    setAdapterStatus(threatData.external_adapter_status || 'Disconnected');
+    setSummary(sumData);
+    setLoading(false);
+  }).catch(err => {
+    console.error("Threat intel fetch error:", err);
+    // --- MOCK DATA FOR DEMO WHEN BACKEND IS OFF ---
+    setThreats([
+      { id: 1, url: 'http://suspicious-phish.com', type: 'Phishing', risk: 'High' },
+      { id: 2, url: 'http://malware-test.net', type: 'Malware Distribution', risk: 'Critical' },
+      { id: 3, url: 'http://lottery-scam.win', type: 'Lottery Scam', risk: 'Medium' },
+    ]);
+    setTotal(127);
+    setIntelMode('Demo Mode (Offline)');
+    setAdapterStatus('Demo Data');
+    setSummary({
+      total_scans: 127,
+      threats_blocked: 42,
+      // THIS IS FOR YOUR GRAPHS - 7-Day Activity
+      threat_activity: [
+        { date: 'Mon', total: 20, threats: 5 },
+        { date: 'Tue', total: 35, threats: 12 },
+        { date: 'Wed', total: 30, threats: 8 },
+        { date: 'Thu', total: 50, threats: 20 },
+        { date: 'Fri', total: 45, threats: 15 },
+        { date: 'Sat', total: 65, threats: 28 },
+        { date: 'Sun', total: 80, threats: 35 },
+      ],
+      // THIS IS FOR RISK PIE CHART
+      risk_distribution: [
+        { name: 'Safe', value: 65 },
+        { name: 'Suspicious', value: 22 },
+        { name: 'Malicious', value: 13 },
+      ]
     });
+    setLoading(false);
+  });
+};
+
   };
 
   useEffect(() => {
