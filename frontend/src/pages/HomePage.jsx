@@ -25,19 +25,14 @@ export default function HomePage() {
       setSummary(sumData);
       setTrends(trendData.trends || []);
       setLoading(false);
-      }).catch(err => {
+          }).catch(err => {
       console.error("Dashboard fetch error:", err);
-      // DEMO DATA - This makes graphs work on Vercel without backend
       setSummary({
         total_scans: 1247,
         safe_count: 850,
         suspicious_count: 220,
         malicious_count: 177,
-        risk_distribution: [
-          { name: 'Safe', value: 68 },
-          { name: 'Suspicious', value: 18 },
-          { name: 'Malicious', value: 14 },
-        ]
+        risk_distribution: { Low: 68, Medium: 18, High: 14 }
       });
       setTrends([
         { date: 'Mon', total: 20, threats: 5 },
@@ -50,8 +45,6 @@ export default function HomePage() {
       ]);
       setLoading(false);
     });
-
-  const pieData = summary ? [
     { name: 'Low Risk', value: summary.risk_distribution.Low || 0, color: '#10b981' },
     { name: 'Medium Risk', value: summary.risk_distribution.Medium || 0, color: '#f59e0b' },
     { name: 'High Risk', value: summary.risk_distribution.High || 0, color: '#f97316' },
