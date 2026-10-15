@@ -12,12 +12,20 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
     # CORS Origin configuration
-    CORS_ORIGINS = [
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-    ]
+    # In production, set CORS_ORIGINS env var to a comma-separated list of allowed origins,
+    # or leave unset to allow all origins (suitable for open hackathon demo deployments).
+    _cors_env = os.getenv("CORS_ORIGINS", "")
+    if _cors_env:
+        CORS_ORIGINS = [o.strip() for o in _cors_env.split(",") if o.strip()]
+    elif os.getenv("FLASK_ENV") == "production":
+        CORS_ORIGINS = "*"  # Allow any deployed frontend in production demo
+    else:
+        CORS_ORIGINS = [
+            "http://localhost:5173",
+            "http://127.0.0.1:5173",
+            "http://localhost:3000",
+            "http://127.0.0.1:3000",
+        ]
     
     # Security limits
     MAX_CONTENT_LENGTH = 2 * 1024 * 1024  # 2MB max request payload

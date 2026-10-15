@@ -1,4 +1,7 @@
-const API_BASE = '/api';
+// In production builds, set VITE_API_URL to your deployed backend URL
+// e.g. https://cybershield-backend.onrender.com/api
+// For local dev, falls back to /api (proxied by Vite to localhost:5000)
+const API_BASE = import.meta.env.VITE_API_URL || '/api';
 
 async function handleResponse(res) {
   if (!res.ok) {
